@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Actividad</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="formulario.js"></script>
+</head>
+<body>
+  <h1>Formulario de Nueva Actividad</h1>
+  <form id="actividadForm">
+    <fieldset>
+      <legend>¿Dónde?</legend>
+      <label>Región:
+        <select id="region" required>
+          <option value="">Seleccione</option>
+          <option value="RM">Región Metropolitana</option>
+        </select>
+      </label><br>
+      <label>Comuna:
+        <select id="comuna" required>
+          <option value="">Seleccione</option>
+          <option value="Santiago">Santiago</option>
+          <option value="Ñuñoa">Ñuñoa</option>
+          <option value="Providencia">Providencia</option>
+        </select>
+      </label><br>
+      <label>Sector: <input type="text" id="sector" maxlength="100"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>¿Quién organiza?</legend>
+      <label>Nombre: <input type="text" id="nombre" maxlength="200" required></label><br>
+      <label>Email: <input type="email" id="email" maxlength="100" required></label><br>
+      <label>Celular: <input type="tel" id="celular" placeholder="+569.12345678"></label><br>
+      <label>Contacto por:
+        <select id="redes" multiple>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="telegram">Telegram</option>
+          <option value="x">X</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="otra">Otra</option>
+        </select>
+      </label><br>
+      <div id="contacto-extra"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>¿Cuándo y de qué trata?</legend>  
+      <label>Inicio: <input type="datetime-local" id="inicio" required></label><br>
+      <label>Término: <input type="datetime-local" id="termino"></label><br>
+      <label>Descripción:<br>
+        <textarea cols="50" rows="10" id="descripcion"></textarea>
+      </label><br>
+      <label>Tema:
+        <select id="tema" required>
+          <option value="">Seleccione</option>
+          <option>música</option><option>deporte</option><option>ciencias</option>
+          <option>religión</option><option>política</option><option>tecnología</option>
+          <option>juegos</option><option>baile</option><option>comida</option>
+          <option value="otro">otro</option>
+        </select>
+      </label>
+      <div id="tema-otro"></div><br>
+      <label>Fotos: <input type="file" id="foto1" accept="image/*" required></label>
+      <div id="foto-extra"></div>
+      <button type="button" id="agregarFoto">Agregar otra foto</button>
+    </fieldset>
+
+    <br>
+    <button type="button" id="enviar">Agregar esta actividad</button>
+  </form>
+
+  <div id="mensaje-confirmacion" style="display:none;">
+    <p>¿Está seguro que desea agregar esta actividad?</p>
+    <button id="confirmar">Sí, estoy seguro</button>
+    <button id="cancelar">No, quiero volver al formulario</button>
+  </div>
+
+  <div id="mensaje-final" style="display:none;">
+    <p>Hemos recibido su información, muchas gracias y suerte en su actividad.</p>
+    <a href="index.html">Volver a la portada</a>
+  </div>
+</body>
+</html>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const regionSelect = document.getElementById('region');
+  const comunaSelect = document.getElementById('comuna');
+
+  // Cargar las regiones y comunas desde el archivo JSON
+  fetch('region_comuna.json')
+    .then(response => response.json())  // Convertir la respuesta en formato JSON
+    .then(data => {
+      const regiones = data.regiones;
+
+      // Llenar el select de regiones
+      regiones.forEach(region => {
+        const option = document.createElement('option');
+        option.value = region.id;
+        option.textContent = region.nombre;
+        regionSelect.appendChild(option);
+      });
+
+      // Llenar las comunas cuando cambie la región
+      regionSelect.addEventListener('change', function () {
+        const selectedRegionId = parseInt(regionSelect.value);
+        const selectedRegion = regiones.find(region => region.id === selectedRegionId);
+        
+        if (selectedRegion) {
+          const comunas = selectedRegion.comunas || [];
+          
+          // Limpiar las opciones actuales
+          comunaSelect.innerHTML = '<option value="">Seleccione</option>';
+          
+          // Agregar las comunas correspondientes a la región seleccionada
+          comunas.forEach(function (comuna) {
+            const option = document.createElement('option');
+            option.value = comuna.id;
+            option.textContent = comuna.nombre;
+            comunaSelect.appendChild(option);
+          });
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error al cargar el archivo JSON:', error);
+    });
+});
+
+</script>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estadísticas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Estadísticas</h1>
+  <h2>Actividades por día</h2>
+  <div class="image-container">
+    <img src="img/lineas.jpeg" alt="Gráfico líneas">
+    <img src="img/torta.jpeg" alt="Gráfico torta">
+    <img src="img/barras.jpeg" alt="Gráfico barras">
+  </div>
+  <br><br>
+  <a href="index.html">Volver a la portada</a>
+</body>
+</html>
+<style>
+  /* Aseguramos que las imágenes se ubiquen en un grid de 3 columnas */
+.image-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+  gap: 20px; /* Espacio entre las imágenes */
+  justify-items: center; /* Centrar las imágenes dentro de sus celdas */
+  margin-bottom: 20px;
+}
+
+/* Ajustamos el tamaño de las imágenes */
+.image-container img {
+  width: 100%; /* Las imágenes ocuparán el 100% del ancho de su columna */
+  height: auto; /* Mantenemos la proporción original */
+  max-width: 300px; /* Limitar el tamaño máximo */
+  border-radius: 10px; /* Opcional: bordes redondeados */
+}
+
+/* Estilos adicionales para el contenedor y la página */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+</style>
